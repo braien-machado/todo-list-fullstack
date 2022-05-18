@@ -1,16 +1,15 @@
-const express = require('express');
-const { Task } = require('../models');
+const TaskService = require('../services/taskService');
 
-const router = express.Router();
-
-router.get('/', async (_req, res) => {
+const getAllTasks = async (_req, res) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await TaskService.getAllTasks();
 
     return res.status(200).json(tasks);
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getAllTasks,
+};

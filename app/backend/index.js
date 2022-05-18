@@ -1,19 +1,14 @@
 const express = require('express');
-const TaskController = require('./src/controllers/taskController');
+const handleError = require('./src/middlewares/errorHandler');
+const TaskRoute = require('./src/routes/taskRoutes');
 
 const app = express();
 
 app.use(express.json());
 
-app.use(TaskController);
+app.use(TaskRoute);
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, _req, res, _next) => {
-  if (err.code) return res.status(err.code).json({ message: err.message });
-  if (err.message) return res.status(500).json({ message: err.message });
-
-  return res.status(500).json({ message: 'Something went wrong' });
-});
+app.use(handleError);
 
 const PORT = process.env.PORT || 3001;
 

@@ -5,12 +5,12 @@ module.exports = {
       {
         task: 'Fazer teste técnico para Ebyrt',
         status: 'em andamento',
-        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+        created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       {
         task: 'Treinar pitch pessoal',
         status: 'pendente',
-        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+        created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     ],
     {},

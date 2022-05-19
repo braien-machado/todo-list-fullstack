@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-export default function Header() {
+export default function Header(props) {
+  const { addTask } = props;
   const [newTask, setNewTask] = useState('');
 
   return (
@@ -14,7 +16,17 @@ export default function Header() {
           onChange={({ target: { value } }) => setNewTask(value)}
         />
       </label>
-      <button type="button">Adicionar</button>
+      <button
+        disabled={newTask.length === 0}
+        onClick={() => addTask(newTask)}
+        type="button"
+      >
+        Adicionar
+      </button>
     </div>
   );
 }
+
+Header.propTypes = {
+  addTask: PropTypes.func.isRequired,
+};

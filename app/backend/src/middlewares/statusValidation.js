@@ -10,7 +10,7 @@ const validateStatus = async (req, _res, next) => {
   if (!statusOptions[status]) {
     next({
       code: 400,
-      message: "Status can be only 'pendente', 'em andamento' ou 'pronto'",
+      message: "Status can be only 'pendente', 'em andamento' or 'pronto'",
     });
   }
   next();

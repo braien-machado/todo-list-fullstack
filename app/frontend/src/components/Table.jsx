@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 
 export default function Tasks(props) {
-  const { tasks } = props;
+  const { tasks, loadTasks } = props;
 
   return (
     <table>
@@ -18,7 +18,11 @@ export default function Tasks(props) {
       </thead>
       <tbody>
         {tasks.map((task) => (
-          <TableRow task={task} key={`${task.task}-${task.createdAt}`} />
+          <TableRow
+            loadTasks={loadTasks}
+            task={task}
+            key={`${task.task}-${task.createdAt}`}
+          />
         ))}
       </tbody>
     </table>
@@ -32,4 +36,5 @@ Tasks.propTypes = {
     id: PropTypes.number,
     status: PropTypes.string,
   })).isRequired,
+  loadTasks: PropTypes.func.isRequired,
 };

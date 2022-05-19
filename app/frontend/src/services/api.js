@@ -18,8 +18,13 @@ const updateTask = async (task, id) => {
   await axios.put(`http://localhost:3001/task/${id}`, task);
 };
 
+const deleteTask = async (id) => {
+  await axios.delete(`http://localhost:3001/task/${id}`);
+};
+
 module.exports = {
   getTasks,
   addTask,
   updateTask,
+  deleteTask,
 };

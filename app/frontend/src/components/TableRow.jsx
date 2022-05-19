@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { updateTask } from '../services/api';
+import { deleteTask, updateTask } from '../services/api';
 
 export default function TableRow(props) {
   const {
@@ -10,6 +10,7 @@ export default function TableRow(props) {
       status,
       task,
     },
+    loadTasks,
   } = props;
 
   const [taskValue, setTaskValue] = useState(task);
@@ -23,6 +24,11 @@ export default function TableRow(props) {
       await updateTask({ task: taskValue, status: statusValue }, id);
     }
     setEditMode(!editMode);
+  };
+
+  const handleDeleteButtonClick = async () => {
+    await deleteTask(id);
+    await loadTasks();
   };
 
   return (
@@ -63,7 +69,7 @@ export default function TableRow(props) {
         <button type="button" onClick={handleEditButtonClick}>
           { editMode ? 'Confirmar' : 'Editar' }
         </button>
-        <button type="button">Excluir</button>
+        <button type="button" onClick={handleDeleteButtonClick}>Excluir</button>
       </td>
     </tr>
   );
@@ -76,4 +82,5 @@ TableRow.propTypes = {
     id: PropTypes.number,
     status: PropTypes.string,
   }).isRequired,
+  loadTasks: PropTypes.func.isRequired,
 };

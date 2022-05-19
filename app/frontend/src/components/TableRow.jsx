@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { updateTask } from '../services/api';
 
 export default function TableRow(props) {
   const {
     task: {
+      id,
       createdAt,
       status,
       task,
@@ -13,6 +15,15 @@ export default function TableRow(props) {
   const [taskValue, setTaskValue] = useState(task);
   const [statusValue, setStatusValue] = useState(status);
   const [editMode, setEditMode] = useState(false);
+
+  const isTaskChanged = () => (status !== statusValue || task !== taskValue);
+
+  const handleEditButtonClick = async () => {
+    if (editMode === true && isTaskChanged()) {
+      await updateTask({ task: taskValue, status: statusValue }, id);
+    }
+    setEditMode(!editMode);
+  };
 
   return (
     <tr>
@@ -49,7 +60,7 @@ export default function TableRow(props) {
         }
       </td>
       <td>
-        <button type="button" onClick={() => setEditMode(!editMode)}>
+        <button type="button" onClick={handleEditButtonClick}>
           { editMode ? 'Confirmar' : 'Editar' }
         </button>
         <button type="button">Excluir</button>

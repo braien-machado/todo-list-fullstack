@@ -1,4 +1,5 @@
 const express = require('express');
+require('express-async-errors');
 const handleError = require('./src/middlewares/errorHandler');
 const TaskRoute = require('./src/routes/taskRoutes');
 

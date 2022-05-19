@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { getTasks } from '../services/api';
+import TableRow from './TableRow';
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -17,33 +18,6 @@ export default function Tasks() {
     handleTasksOnLoad();
   }, []);
 
-  const generateTableRow = (task) => {
-    const {
-      // id,
-      // status,
-      task: description,
-      createdAt,
-    } = task;
-
-    return (
-      <tr key={`${description}-${createdAt}`}>
-        <td>{description}</td>
-        <td>{createdAt}</td>
-        <td>
-          <select name="status" id="status">
-            <option value="pendente">pendente</option>
-            <option value="em andamento">em andamento</option>
-            <option value="pronto">pronto</option>
-          </select>
-        </td>
-        <td>
-          <button type="button">Editar</button>
-          <button type="button">Excluir</button>
-        </td>
-      </tr>
-    );
-  };
-
   return (
     <table>
       <thead>
@@ -55,7 +29,9 @@ export default function Tasks() {
         </tr>
       </thead>
       <tbody>
-        {tasks.map((task) => generateTableRow(task))}
+        {tasks.map((task) => (
+          <TableRow task={task} key={`${task.task}-${task.createdAt}`} />
+        ))}
       </tbody>
     </table>
   );

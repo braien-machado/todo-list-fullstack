@@ -7,15 +7,11 @@ const chaiHttp = require('chai-http');
 
 const app = require('../../index');
 const { Task } = require('../database/models');
-const mockedTasks = require('./mocks/mockedTasks');
+const { Task: taskMock } = require('./mock/models');
 
 const { expect } = chai;
 
 chai.use(chaiHttp);
-
-const consoleLogStub = sinon.stub(console, 'log');
-before(() => consoleLogStub.returns(true));
-after(() => consoleLogStub.restore());
 
 describe('Request GET /task returns', () => {
   let response;
@@ -23,7 +19,7 @@ describe('Request GET /task returns', () => {
   before(async () => {
     sinon
       .stub(Task, 'findAll')
-      .resolves(mockedTasks);
+      .callsFake(taskMock.findAll);
     response = await chai.request(app).get('/task');
   });
 

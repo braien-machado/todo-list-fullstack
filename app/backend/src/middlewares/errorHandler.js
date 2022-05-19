@@ -4,6 +4,6 @@ const handleError = (err, _req, res, _next) => {
   if (err.message) return res.status(500).json({ message: err.message });
 
   return res.status(500).json({ message: 'Something went wrong' });
-}
+};
 
 module.exports = handleError;

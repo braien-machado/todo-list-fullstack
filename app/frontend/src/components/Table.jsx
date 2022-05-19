@@ -1,22 +1,10 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
-import { getTasks } from '../services/api';
+import React from 'react';
+import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 
-export default function Tasks() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    async function handleTasksOnLoad() {
-      if (tasks.length === 0) {
-        const dataTasks = await getTasks();
-
-        setTasks(dataTasks);
-      }
-    }
-
-    handleTasksOnLoad();
-  }, []);
+export default function Tasks(props) {
+  const { tasks } = props;
 
   return (
     <table>
@@ -36,3 +24,12 @@ export default function Tasks() {
     </table>
   );
 }
+
+Tasks.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.shape({
+    task: PropTypes.string,
+    createdAt: PropTypes.string,
+    id: PropTypes.number,
+    status: PropTypes.string,
+  })).isRequired,
+};

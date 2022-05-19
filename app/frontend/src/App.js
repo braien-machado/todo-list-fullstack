@@ -7,11 +7,33 @@ import { addTask, getTasks } from './services/api';
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [sortMethod, setSortMethod] = useState('date');
 
-  const getTasksFromApi = async () => {
+  const sortMethods = {
+    date: (array) => array.sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)),
+    alphabetical: (array) => array.sort((a, b) => {
+      if (a.task <= b.task) {
+        return -1;
+      }
+      return 1;
+    }),
+    status: (array) => array.sort((a, b) => {
+      if (a.status <= b.status) {
+        return -1;
+      }
+      return 1;
+    }),
+  };
+
+  const getTasksFromApi = async (method = 'date') => {
     const dataTasks = await getTasks();
 
-    setTasks(dataTasks);
+    setTasks(sortMethods[method](dataTasks));
+  };
+
+  const changeOrder = async (method) => {
+    setSortMethod(method);
+    await getTasksFromApi(method);
   };
 
   const addTaskToAPI = async (description) => {
@@ -31,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header addTask={addTaskToAPI} />
+      <Header addTask={addTaskToAPI} order={sortMethod} changeOrder={changeOrder} />
       <Table tasks={tasks} loadTasks={getTasksFromApi} />
     </div>
   );

@@ -28,7 +28,7 @@ describe('Request POST /task', () => {
     Task.create.restore();
   });
 
-  describe('inserts new task', () => {
+  describe('inserts new task with correct body', () => {
     let createRequest = {};
     let firstTaskResponse = {};
     let secondTaskResponse = {};
@@ -70,6 +70,29 @@ describe('Request POST /task', () => {
 
     it('second task list contains new task', () => {
       expect(secondTaskResponse.body[2]).to.contain(newTask);
+    });
+  });
+
+  describe('inserts new task with incorrect status', () => {
+    let createRequest = {};
+    const newTask = {
+      task: 'Realizar testes',
+      status: 'status_invalido',
+    };
+
+    before(async () => {
+      createRequest = await chai
+        .request(app).post('/task').send(newTask);
+    });
+
+    it('the POST request returns status 400', () => {
+      expect(createRequest).to.have.status(400);
+    });
+
+    it('the POST request returns error message', () => {
+      const message = "Status can be only 'pendente', 'em andamento' ou 'pronto'";
+
+      expect(createRequest.body.message).to.be.equal(message);
     });
   });
 });

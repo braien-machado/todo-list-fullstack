@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(TaskRoute);
+app.use('/task', TaskRoute);
 
 app.use(handleError);
 
@@ -14,3 +14,5 @@ const PORT = process.env.PORT || 3001;
 
 // eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
+
+module.exports = app;
